@@ -1,7 +1,3 @@
-#Group 4
-    #John Paul Sapasap
-    #Jed Andew Del Rosario
-    #Marc Joshua Escueta
 
 #libraries needed for the program
 import matplotlib.pyplot as plt
@@ -441,96 +437,7 @@ for i in range(len( imgs)):
 cm = confusion_matrix(class_names, predicted_classes)
 f = sns.heatmap (cm, xticklabels= class_names, yticklabels= predicted_classes, annot= True)
 
-type_1 = tf.keras.utils.load_img('img_1/4.png', target_size = (width, height)) 
-plt.imshow(type_1)   
-plt.show()
-type_1_x = np.expand_dims (type_1, axis=0)
-prediction = model.predict (type_1_x)
-index = np.argmax (prediction)
-print(class_names[index])
 
-
-type_2 = tf.keras.utils.load_img('img_2/4.png', target_size = (width, height))
-plt.imshow(type_2)   
-plt.show()
-type_2_x = np.expand_dims (type_2, axis=0)
-prediction = model.predict (type_2_x)
-index = np.argmax (prediction)
-print(class_names[index])
-
-
-type_3 = tf.keras.utils.load_img('img_3/4.png', target_size = (width, height))
-plt.imshow(type_3)   
-plt.show()
-type_3_x = np.expand_dims (type_3, axis=0)
-prediction = model.predict (type_3_x)
-index = np.argmax (prediction)
-print(class_names[index])
-
-
-type_4 = tf.keras.utils.load_img('img_4/4.png', target_size = (width, height))
-plt.imshow(type_4)   
-plt.show()
-type_4_x = np.expand_dims (type_4, axis=0)
-prediction = model.predict (type_4_x)
-index = np.argmax (prediction)
-print(class_names[index])
-
-
-#Live Predictions using camera
-CAMERA = cv2.VideoCapture(0)
-camera_height = 500
-
-while(True):
-  
-    _, frame = CAMERA.read()
-
-    frame = cv2.flip (frame, 1)
-
-    #Resacle the images output
-    aspect = frame.shape[1]/float(frame.shape[0])
-    res = int(aspect* camera_height)
-    frame = cv2.resize(frame, (res, camera_height))
-    x1 = int(frame.shape[1] * 0.25)
-    y1 = int(frame.shape[0] * 0.25)
-    
-    x2 = int(frame.shape[1] * 0.75)
-    y2 = int(frame.shape[0] * 0.75)
-
-    roi = frame[y1+2:y2-2, x1+2:x2-2]
-    roi = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
-    roi = cv2.resize(roi, (width, height))
-    roi_x = np.expand_dims(roi, axis=0)
-
-    predictions = model.predict(roi_x)
-    type_1_x, type_2_x, type_3_x, type_4_x = predictions[0]
-
-    #The green rectangle
-    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-
-    #Predictions / Labels
-    type_1_txt = '{} - {}%'.format(class_names[0], int(type_1_x*100))
-    cv2.putText(frame, type_1_txt, (70, 210), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(240,240,240), 2)
-
-    type_2_txt = '{} - {}%'.format(class_names[1], int(type_2_x*100))
-    cv2.putText(frame, type_2_txt, (70, 235), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(240,240,240), 2)
-
-    type_3_txt = '{} - {}%'.format(class_names[2], int(type_3_x*100))
-    cv2.putText(frame, type_3_txt, (70, 255), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(240,240,240), 2)
-
-    type_4_txt = '{} - {}%'.format(class_names[3], int(type_4_x*100))
-    cv2.putText(frame, type_4_txt, (70, 275), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(240,240,240), 2)
-
-    cv2.imshow("OBJECT DETECTION", frame)
-
-    #Controls q = quit/ s = capturing
-    key = cv2.waitKey(1)
-
-    if key & 0xff == ord('q'):
-        break
-    plt.show()
-CAMERA.release()
-cv2.destroyAllWindows()
 
 
 
