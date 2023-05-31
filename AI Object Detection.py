@@ -1,4 +1,4 @@
-
+#By:John Paul Sapasap
 #libraries needed for the program
 import matplotlib.pyplot as plt
 import numpy as np
